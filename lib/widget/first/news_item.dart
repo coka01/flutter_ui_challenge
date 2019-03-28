@@ -19,6 +19,15 @@ class ContentWidget extends StatelessWidget {
     );
   }
 
+  Widget _newsList() {
+    return Column(
+      children: <Widget>[
+        _contentImageView(),
+        _contentText(),
+      ],
+    );
+  }
+
   Widget _contentImageView() {
     return Container(
       height: 380,
