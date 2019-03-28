@@ -11,6 +11,9 @@ class FirstScreen extends StatefulWidget {
 }
 
 class _FirstScreenState extends State<FirstScreen> {
+  final ScrollController _scrollController = ScrollController();
+  final TopTextWidget _topTextWidget = TopTextWidget(key: GlobalKey<TopTextWidgetState>(),);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,15 +42,25 @@ class _FirstScreenState extends State<FirstScreen> {
         HeaderWidget(),
         SizedBox(
           height: 440.0,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: <Widget>[
-              TopTextWidget(),
-              NewsList(),
-            ],
+          child: NotificationListener(
+            child: ListView(
+              controller: _scrollController,
+              scrollDirection: Axis.horizontal,
+              children: <Widget>[
+                _topTextWidget,
+                NewsList(),
+              ],
+            ),
+            onNotification: (t) {
+              _topTextWidget.setOpacity(_scrollController.position.pixels);
+            },
           ),
         ),
       ],
     );
+  }
+
+  void setOpacity() {
+    _scrollController.position.pixels;
   }
 }

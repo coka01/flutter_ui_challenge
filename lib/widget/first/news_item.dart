@@ -1,25 +1,16 @@
 
 import 'package:flutter/material.dart';
 
-class ContentWidget extends StatelessWidget {
+class NewsItem extends StatelessWidget {
   final String imageName;
   final String title;
   final String userName;
 
-  ContentWidget({Key key, @required this.imageName, @required this.title,
+  NewsItem({Key key, @required this.imageName, @required this.title,
     @required this.userName}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        _contentImageView(),
-        _contentText(),
-      ],
-    );
-  }
-
-  Widget _newsList() {
     return Column(
       children: <Widget>[
         _contentImageView(),
