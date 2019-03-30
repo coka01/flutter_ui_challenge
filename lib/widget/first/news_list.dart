@@ -6,11 +6,11 @@ class NewsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        NewsItem(imageName: "assets/dark.jpg", title: "dark", userName: "user"),
-        NewsItem(imageName: "assets/mountain.jpg", title: "mountain", userName: "user",),
-        NewsItem(imageName: "assets/night.jpg", title: "night", userName: "user"),
-        NewsItem(imageName: "assets/sea.jpg", title: "sea", userName: "user"),
-        NewsItem(imageName: "assets/sun.jpg", title: "sun", userName: "user"),
+        NewsItem(imageName: "assets/dark.jpg", title: "dark", message: "This is sample message.\nThis is sample message.", userName: "user"),
+        NewsItem(imageName: "assets/mountain.jpg", title: "mountain", message: "This is sample message.\nThis is sample message.", userName: "user",),
+        NewsItem(imageName: "assets/night.jpg", title: "night", message: "This is sample message.\nThis is sample message.", userName: "user"),
+        NewsItem(imageName: "assets/sea.jpg", title: "sea", message: "This is sample message.\nThis is sample message.", userName: "user"),
+        NewsItem(imageName: "assets/sun.jpg", title: "sun", message: "This is sample message.\nThis is sample message.", userName: "user"),
       ],
     );
   }
