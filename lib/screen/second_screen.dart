@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ui_challenge/widget/first/news_item.dart';
+import 'package:flutter_ui_challenge/widget/first/opacity_animation.dart';
+import 'package:flutter_ui_challenge/widget/first/user_area.dart';
 
 class SecondScreen extends StatefulWidget {
   static String routeName = "SecondScreen";
@@ -9,7 +11,6 @@ class SecondScreen extends StatefulWidget {
 }
 
 class _SecondScreenState extends State<SecondScreen> {
-
 
   @override
   Widget build(BuildContext context) {
@@ -22,42 +23,56 @@ class _SecondScreenState extends State<SecondScreen> {
           Stack(
             children: <Widget>[
               _newsImageWidget(maxWidth, news),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Text(news.title,
-                  style: TextStyle(color: Colors.white,
-                      fontSize: 22.0,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
+              _newsTitle(news),
             ],
           ),
           _newsMessage(news),
-          _user(news),
+          OpacityAnimation(
+            startTime: 500,
+            child: UserArea(),
+          ),
         ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+          iconSize: 26.0,
+          currentIndex: 0,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.arrow_back_ios),
+              title: Text(""),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.star_border),
+              title: Text(""),
+            ),
+          ]
       ),
     );
   }
 
-  Container _user(NewsItem news) {
-    return Container(
-          child: Text(news.userName,
-            style: TextStyle(
-              fontSize: 16.0,
-            ),
-          ),
-        );
+  Align _newsTitle(NewsItem news) {
+    return Align(
+              alignment: Alignment.bottomCenter,
+              child: Text(news.title,
+                style: TextStyle(color: Colors.white,
+                    fontSize: 22.0,
+                    fontWeight: FontWeight.bold),
+              ),
+            );
   }
 
-  Container _newsMessage(NewsItem news) {
-    return Container(
-          margin: EdgeInsets.symmetric(vertical: 20.0),
-          child: Text(news.message,
-            style: TextStyle(
-              fontSize: 18.0,
-            ),
+  Widget _newsMessage(NewsItem news) {
+    return OpacityAnimation(
+      startTime: 500,
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 20.0),
+        child: Text(news.message,
+          style: TextStyle(
+            fontSize: 18.0,
           ),
-        );
+        ),
+      ),
+    );
   }
 
   Container _newsImageWidget(double maxWidth, NewsItem news) {

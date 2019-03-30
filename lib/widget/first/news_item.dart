@@ -1,12 +1,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_ui_challenge/screen/second_screen.dart';
+import 'package:flutter_ui_challenge/widget/first/user_area.dart';
 
 class NewsItem extends StatelessWidget {
   final String imageName;
   final String title;
   final String message;
   final String userName;
+  // TODO userモデルクラス
 
   NewsItem({Key key, @required this.imageName, @required this.title,
     @required this.message, @required this.userName}) : super(key: key);
@@ -16,7 +18,7 @@ class NewsItem extends StatelessWidget {
     return Column(
       children: <Widget>[
         _contentImageArea(context),
-        _contentUserArea(),
+        UserArea(),
       ],
     );
   }
@@ -56,32 +58,6 @@ class NewsItem extends StatelessWidget {
               ],
             ),
         ),
-    );
-  }
-
-  Widget _contentUserArea() {
-    return Container(
-      height: 35,
-      width: 254,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 20.0),
-            width: 30,
-            height: 30,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(image: AssetImage(imageName),),
-            ),
-          ),
-          Text(userName,
-            style: TextStyle(fontSize: 18.0,
-              fontStyle: FontStyle.italic
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

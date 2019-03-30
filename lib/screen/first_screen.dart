@@ -3,6 +3,7 @@ import 'package:flutter_ui_challenge/widget/first/dialogonal_clipper.dart';
 import 'package:flutter_ui_challenge/widget/first/bottom_navigation.dart';
 import 'package:flutter_ui_challenge/widget/first/header.dart';
 import 'package:flutter_ui_challenge/widget/first/news_list.dart';
+import 'package:flutter_ui_challenge/widget/first/opacity_animation.dart';
 import 'package:flutter_ui_challenge/widget/first/top_text_widget.dart';
 
 class FirstScreen extends StatefulWidget {
@@ -49,7 +50,10 @@ class _FirstScreenState extends State<FirstScreen> {
               controller: _scrollController,
               scrollDirection: Axis.horizontal,
               children: <Widget>[
-                _topTextWidget,
+                OpacityAnimation(
+                  startTime: 700,
+                  child: _topTextWidget,
+                ),
                 NewsList(),
               ],
             ),
