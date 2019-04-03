@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ui_challenge/widget/first/news_item.dart';
-import 'package:flutter_ui_challenge/widget/first/opacity_animation.dart';
-import 'package:flutter_ui_challenge/widget/first/user_area.dart';
+import 'package:flutter_ui_challenge/model/writer.dart';
+import 'package:flutter_ui_challenge/widget/news_contents.dart';
+import 'package:flutter_ui_challenge/widget/opacity_animation.dart';
+import 'package:flutter_ui_challenge/widget/writer_area.dart';
 
 class SecondScreen extends StatefulWidget {
   static String routeName = "SecondScreen";
@@ -12,10 +13,16 @@ class SecondScreen extends StatefulWidget {
 
 class _SecondScreenState extends State<SecondScreen> {
 
+  OpacityAnimation _userWidget;
+  OpacityAnimation _newsMessageWidget;
+
   @override
   Widget build(BuildContext context) {
-    final NewsItem news = ModalRoute.of(context).settings.arguments;
+    final NewsContents news = ModalRoute.of(context).settings.arguments;
     final double maxWidth = MediaQuery.of(context).size.width;
+
+    _userWidget =  _writer(news.news.writer);
+    _newsMessageWidget = _newsMessage(news);
 
     return Scaffold(
       body: Column(
@@ -26,11 +33,8 @@ class _SecondScreenState extends State<SecondScreen> {
               _newsTitle(news),
             ],
           ),
-          _newsMessage(news),
-          OpacityAnimation(
-            startTime: 500,
-            child: UserArea(),
-          ),
+          _newsMessageWidget,
+          _userWidget,
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -50,10 +54,18 @@ class _SecondScreenState extends State<SecondScreen> {
     );
   }
 
-  Align _newsTitle(NewsItem news) {
+  OpacityAnimation _writer(Writer writer) {
+    return OpacityAnimation(
+          childKey: GlobalKey<OpacityAnimationState>(),
+          startTime: 500,
+          child: WriterArea(writer: writer,),
+        );
+  }
+
+  Align _newsTitle(NewsContents news) {
     return Align(
               alignment: Alignment.bottomCenter,
-              child: Text(news.title,
+              child: Text(news.news.title,
                 style: TextStyle(color: Colors.white,
                     fontSize: 22.0,
                     fontWeight: FontWeight.bold),
@@ -61,12 +73,13 @@ class _SecondScreenState extends State<SecondScreen> {
             );
   }
 
-  Widget _newsMessage(NewsItem news) {
+  Widget _newsMessage(NewsContents news) {
     return OpacityAnimation(
+      childKey: GlobalKey<OpacityAnimationState>(),
       startTime: 500,
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 20.0),
-        child: Text(news.message,
+        child: Text(news.news.message,
           style: TextStyle(
             fontSize: 18.0,
           ),
@@ -75,16 +88,34 @@ class _SecondScreenState extends State<SecondScreen> {
     );
   }
 
-  Container _newsImageWidget(double maxWidth, NewsItem news) {
-    return Container(
-          height: 400,
-          width: maxWidth,
-          child: Hero(
-            tag: news.title,
-            flightShuttleBuilder: (flightContext, animation, direction, fromContext, toContext) {
-              final Hero toHero = toContext.widget;
-              return ScaleTransition(
-                scale: animation.drive(
+  Widget _newsImageWidget(double maxWidth, NewsContents news) {
+    return GestureDetector(
+      onVerticalDragEnd: (details) {
+
+      },
+      child: Container(
+        height: 400,
+        width: maxWidth,
+        child: Hero(
+          tag: news.news.title,
+          flightShuttleBuilder: (flightContext, animation, direction, fromContext, toContext) {
+            final Hero toHero = toContext.widget;
+            return ScaleTransition(
+              scale: animation.drive(
+                Tween<double>(begin: 0.0, end: 1.0).chain(
+                  CurveTween(
+                    curve: Interval(0.0, 1.0,
+                        curve: Curves.easeInOut),
+                  ),
+                ),
+              ),
+              child: direction == HeroFlightDirection.push
+                  ? RotationTransition(
+                turns: animation,
+                child: toHero.child,
+              )
+                  : FadeTransition(
+                opacity: animation.drive(
                   Tween<double>(begin: 0.0, end: 1.0).chain(
                     CurveTween(
                       curve: Interval(0.0, 1.0,
@@ -92,26 +123,18 @@ class _SecondScreenState extends State<SecondScreen> {
                     ),
                   ),
                 ),
-                child: direction == HeroFlightDirection.push
-                    ? RotationTransition(
-                  turns: animation,
-                  child: toHero.child,
-                )
-                    : FadeTransition(
-                  opacity: animation.drive(
-                    Tween<double>(begin: 0.0, end: 1.0).chain(
-                      CurveTween(
-                        curve: Interval(0.0, 1.0,
-                            curve: Curves.easeInOut),
-                      ),
-                    ),
-                  ),
-                  child: toHero.child,
-                ),
-              );
+                child: toHero.child,
+              ),
+            );
           },
-            child: Image.asset(news.imageName, fit: BoxFit.fitWidth,),
-          ),
-        );
+          child: Image.asset(news.news.imagePath, fit: BoxFit.fitWidth,),
+        ),
+      ),
+    );
+  }
+
+  void dismissView() {
+    _userWidget.dismissView();
+    _newsMessageWidget.dismissView();
   }
 }

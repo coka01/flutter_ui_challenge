@@ -1,7 +1,13 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_ui_challenge/model/writer.dart';
 
-class UserArea extends StatelessWidget {
+class WriterArea extends StatelessWidget {
+
+  final Writer writer;
+
+  WriterArea({Key key, this.writer}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,10 +22,10 @@ class UserArea extends StatelessWidget {
             height: 30,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              image: DecorationImage(image: AssetImage("assets/dark.jpg"),),
+              image: DecorationImage(image: AssetImage(writer.imagePath),),
             ),
           ),
-          Text("user",
+          Text(writer.name,
             style: TextStyle(fontSize: 18.0,
                 fontStyle: FontStyle.italic
             ),

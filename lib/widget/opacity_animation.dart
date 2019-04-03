@@ -2,16 +2,19 @@
 import 'package:flutter/material.dart';
 
 class OpacityAnimation extends StatefulWidget {
+  final GlobalKey<OpacityAnimationState> childKey;
   final Widget child;
   final int startTime;
 
-  OpacityAnimation({@required this.child, @required this.startTime});
+  OpacityAnimation({@required this.childKey, @required this.child, @required this.startTime}) : super(key: childKey);
 
   @override
-  _OpacityAnimationState createState() => _OpacityAnimationState();
+  OpacityAnimationState createState() => OpacityAnimationState();
+
+  void dismissView() => childKey.currentState.dismissView();
 }
 
-class _OpacityAnimationState extends State<OpacityAnimation> {
+class OpacityAnimationState extends State<OpacityAnimation> {
   static const animDuration = 1500;
 
   double _opacity = 0.0;
@@ -29,5 +32,11 @@ class _OpacityAnimationState extends State<OpacityAnimation> {
       opacity: _opacity,
       child: widget.child,
     );
+  }
+
+  void dismissView() {
+    setState(() {
+      _opacity = 0.0;
+    });
   }
 }
